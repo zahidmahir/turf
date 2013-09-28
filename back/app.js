@@ -24,7 +24,7 @@ zips.features.forEach(function(geo_json) {
 
 function getGeoJSON(zip, res) {
   // /turfs/_design/by_zip/_view/by_zip
-  turfs.view('/by_zip', '/by_zip', function(err, body) {
+  turfs.view('by_zip', 'by_zip', function(err, body) {
     if(err) {
       console.log('[get error]', err);
     } else {
