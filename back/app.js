@@ -39,9 +39,30 @@ function getGeoJSONByZip(res, zip) {
   });
 };
 
-function atilla_the_hun() {
-//potato_in_my_anus
-}
+(function atilla_the_hun() {
+  setInterval(function() {
+    turfs.view('rand', 'rand', { revs_info: false, startkey : Math.random(), limit: 1 }, function(err, body) {
+      if (err) {
+        console.log('atilla error', err)
+      } else {
+        if(Math.random() < .2) {
+          turfs.insert({'owner':'atilla', '_rev': body.rows[0].value._rev}, body.rows[0].value._id, function(error, bod) {
+            if(error) {
+              console.log("atilla hit another error", error);
+            }
+          });
+        } else if(Math.random() < .2) {
+          turfs.insert({'owner':'', '_rev': body.rows[0].value._rev}, body.rows[0].value._id, function(error, bod) {
+            if(error) {
+              console.log("empty owner hit another error", error);
+            }
+          });
+        }
+      }
+    });
+  }, 2000);
+})();
+
 
 
 server.get('/invade', function(req, res, next) {
