@@ -24,7 +24,7 @@ var server = restify.createServer();
 
 function getGeoJSON(zip, res) {
   // /turfs/_design/by_zip/_view/by_zip
-  turfs.view('/by_zip', '/by_zip', function(err, body) {
+  turfs.view('by_zip', 'by_zip', function(err, body) {
     if(err) {
       console.log('[get error]', err);
     } else {
@@ -47,6 +47,6 @@ server.get('/geo', function(req, res, next) {
 // server.get('/hello/:name', respond);
 // server.head('/hello/:name', respond);
 
-server.listen(3000, function() {
+server.listen(21, function() {
   console.log('%s listening at %s', server.name, server.url);
 });
