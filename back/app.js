@@ -13,6 +13,14 @@ server.use(restify.queryParser());
 // Read HTTP request
 server.use(restify.bodyParser({ mapParams: false }));
 
+server.use(
+  function crossOrigin(req,res,next){
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "X-Requested-With");
+    return next();
+  }
+);
+
 var server = restify.createServer();
 
 /*zips.features.forEach(function(geo_json) {
