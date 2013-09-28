@@ -1,35 +1,66 @@
+var restify = require("restify"),
+  request = require("request"),
+  server = restify.createServer(),
+  nano = require('nano')('http://127.0.0.1:5984'),
+  turfs = nano.db.use('turfs');/*,
+  zips = require('./zips.json');*/
 
-/**
- * Module dependencies.
- */
 
-var express = require('express')
-  , routes = require('./routes')
-  , user = require('./routes/user')
-  , http = require('http')
-  , path = require('path');
+// Acceptable Content-Types
+server.use(restify.acceptParser(server.acceptable));
+// Query paramter parser
+server.use(restify.queryParser());
+// Read HTTP request
+server.use(restify.bodyParser({ mapParams: false }));
 
-var app = express();
+server.use(restify.CORS());
+// server.use(
+//   function crossOrigin(req,res,next){
+//     res.header("Access-Control-Allow-Origin", "*");
+//     res.header("Access-Control-Allow-Headers", "X-Requested-With");
+//     return next();
+//   }
+// );
 
-app.configure(function(){
-  app.set('port', process.env.PORT || 3000);
-  app.set('views', __dirname + '/views');
-  app.set('view engine', 'ejs');
-  app.use(express.favicon());
-  app.use(express.logger('dev'));
-  app.use(express.bodyParser());
-  app.use(express.methodOverride());
-  app.use(app.router);
-  app.use(express.static(path.join(__dirname, 'public')));
+var server = restify.createServer();
+/*zips.features.forEach(function(geo_json) {
+  geo_json.owner = "";
+  delete geo_json.properties.OBJECTID;
+  delete geo_json.id;
+  var t = {
+    'geo_json' : geo_json,
+    'zip' : geo_json.properties.postalCode
+  }
+  turfs.insert(t, function(error, body) {
+    if(error) {
+      console.log('[insert error]', error);
+    }
+  });
+});*/
+
+function getGeoJSON(res) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "X-Requested-With");
+  // /turfs/_design/by_zip/_view/by_zip
+  turfs.view('by_zip', 'by_zip', function(err, body) {
+    if(err) {
+      console.log('[ got error ]', err);
+    } else {
+      res.json(JSON.stringify(body));
+    }
+  });
+}
+
+server.get('/getAllGeo', function(req, res, next) {
+  console.log('[ incoming request ]');
+  getGeoJSON(res);
 });
 
-app.configure('development', function(){
-  app.use(express.errorHandler());
-});
+// server.get('/geo/:zip', function(req, res, next) {
+//   console.log('[ incoming request on ' + req.params.zip + ']');
+//   getGeoJSON(req.params.zip, res);
+// });
 
-app.get('/', routes.index);
-app.get('/users', user.list);
-
-http.createServer(app).listen(app.get('port'), function(){
-  console.log("Express server listening on port " + app.get('port'));
+server.listen(80, function() {
+  console.log('%s listening at %s', server.name, server.url);
 });
