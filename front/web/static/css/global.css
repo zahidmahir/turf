@@ -81,7 +81,7 @@
   z-index: 1;
 }
 #toggleHUD{
-  position:absolute;
+  position: absolute;
   width: 15%;
   height: 25%;
   bottom: 0px;
@@ -93,7 +93,30 @@
   background-color: #BBBBBB;
   z-index: 2;
 }
-#arrow{
+
+#triangle-left {
+	position: absolute;
+	top: 5%;
+	left: 5%;
+	width: 0;
+	height: 0;
+	border-top: 12.5px solid transparent;
+	border-right: 25px solid blue;
+	border-bottom: 12.5px solid transparent;
+	z-index: 2;
+}
+#triangle-right {
+	position: absolute;
+	top: 5%;
+	left: 5%;
+	width: 0;
+	height: 0;
+	border-top: 12.5px solid transparent;
+	border-left: 25px solid blue;
+	border-bottom: 12.5px solid transparent;
+	z-index: 2;
+}
+/*#arrow{
 	position: absolute;
   left: 0px;
   top: 0px;
@@ -102,7 +125,7 @@
   width:100%;
   height:40%;
   z-index: 2;
-}
+}*/
 #heads{
   position: absolute;
   left: 0px;

@@ -80,5 +80,11 @@ $(document).ready(function(){
   //show/hide hud
   $("#toggleHUD").click(function(){
     $("#hud").toggle();
+    if($("#triangle-left").length == 0) {
+      $("#triangle-right").replaceWith("<div id=\"triangle-left\"></div>");
+    }
+    else {
+      $("#triangle-left").replaceWith("<div id=\"triangle-right\"></div>");
+    }
   });
 });
