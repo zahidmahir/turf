@@ -3,8 +3,7 @@ var restify = require("restify"),
   server = restify.createServer(),
   nano = require('nano')('http://127.0.0.1:5984'),
   turfs = nano.db.use('turfs'),
-  routes = require('./routes'),
-  follow = require('follow');
+  routes = require('./routes');
 
 server.use(restify.acceptParser(server.acceptable));
 
