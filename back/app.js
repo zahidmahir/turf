@@ -2,8 +2,16 @@ var restify = require("restify"),
   request = require("request"),
   server = restify.createServer(),
   nano = require('nano')('http://127.0.0.1:5984'),
-  turfs = nano.db.use('turfs'),
-  zips = require('./zips.json');
+  turfs = nano.db.use('turfs');/*,
+  zips = require('./zips.json');*/
+
+
+// Acceptable Content-Types
+server.use(restify.acceptParser(server.acceptable));
+// Query paramter parser
+server.use(restify.queryParser());
+// Read HTTP request
+server.use(restify.bodyParser({ mapParams: false }));
 
 var server = restify.createServer();
 
@@ -26,11 +34,8 @@ function getGeoJSON(zip, res) {
   // /turfs/_design/by_zip/_view/by_zip
   turfs.view('by_zip', 'by_zip', function(err, body) {
     if(err) {
-      console.log('[get error]', err);
+      console.log('[got error]', err);
     } else {
-      // body.rows.forEach(function(turf) {
-      //   console.log(JSON.stringify(turf));
-      // });
       send(JSON.stringify(body), res);
     }
   });
@@ -40,12 +45,10 @@ function send(_json, res) {
   res.json(_json);
 }
 
-server.get('/geo', function(req, res, next) {
-  getGeoJSON(11355, res);
+server.get('/geo/:zip', function(req, res, next) {
+  console.log('[ incoming request on ' + req.params.zip + ']');
+  getGeoJSON(req.params.zip, res);
 });
-
-// server.get('/hello/:name', respond);
-// server.head('/hello/:name', respond);
 
 server.listen(21, function() {
   console.log('%s listening at %s', server.name, server.url);
