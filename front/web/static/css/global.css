@@ -1,26 +1,44 @@
+#container{
+  position:absolute;
+  width: 450px;
+  height: 800px;
+}
 #map{
-	position: absolute;
-	z-index: 1;
+  position: absolute;
+  margin: auto;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
 }
 #hud{
-	position: absolute;
-	width: 100%;
-	height: 25%;
-	z-index: 2;
+  position: absolute;
+  bottom: 0px;
+  width: 100%;
+  height: 25%;
+  z-index: 1;
+}
+#toggleHUD{
+  position:absolute;
+  width: 25%;
+  height: 12.5%;
+  bottom: 0px;
+  right: 0px;
+  text-align: right;
+  z-index: 2;
 }
 #info{
-	margin: 0 auto;
-	padding: 0;
-	text-align: center;
-	width: 70%;
-	height: 30%;
+  margin: 0 auto;
+  padding: 0;
+  text-align: center;
+  width: 70%;
+  height: 30%;
 }
 #controls{
-	margin: 0 auto;
-	width: 70%;
+  margin: 0 auto;
+  width: 70%;
 }
 #attack{
-	margin: 0;
-	width: 100%;
-	height: 65%;
+  margin: 0;
+  width: 100%;
+  height: 65%;
 }
