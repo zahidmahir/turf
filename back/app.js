@@ -2,8 +2,8 @@ var restify = require("restify"),
   request = require("request"),
   server = restify.createServer(),
   nano = require('nano')('http://dev:5984'),
-  turfs = nano.db.use('turfs');/*,
-  zips = require('./zips.json');*/
+  turfs = nano.db.use('turfs'),
+  zips = require('./zips.json');
 
 var server = restify.createServer();
 
