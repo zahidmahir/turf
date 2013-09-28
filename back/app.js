@@ -1,35 +1,52 @@
+var restify = require("restify"),
+  request = require("request"),
+  server = restify.createServer(),
+  nano = require('nano')('http://dev:5984'),
+  turfs = nano.db.use('turfs');/*,
+  zips = require('./zips.json');*/
 
-/**
- * Module dependencies.
- */
+var server = restify.createServer();
 
-var express = require('express')
-  , routes = require('./routes')
-  , user = require('./routes/user')
-  , http = require('http')
-  , path = require('path');
+/*zips.features.forEach(function(geo_json) {
+  geo_json.owner = "";
+  delete geo_json.properties.OBJECTID;
+  delete geo_json.id;
+  var t = {
+    'geo_json' : geo_json,
+    'zip' : geo_json.properties.postalCode
+  }
+  turfs.insert(t, function(error, body) {
+    if(error) {
+      console.log('[insert error]', error);
+    }
+  });
+});*/
 
-var app = express();
+function getGeoJSON(zip, res) {
+  // /turfs/_design/by_zip/_view/by_zip
+  turfs.view('/by_zip', '/by_zip', function(err, body) {
+    if(err) {
+      console.log('[get error]', err);
+    } else {
+      // body.rows.forEach(function(turf) {
+      //   console.log(JSON.stringify(turf));
+      // });
+      send(JSON.stringify(body), res);
+    }
+  });
+}
 
-app.configure(function(){
-  app.set('port', process.env.PORT || 3000);
-  app.set('views', __dirname + '/views');
-  app.set('view engine', 'ejs');
-  app.use(express.favicon());
-  app.use(express.logger('dev'));
-  app.use(express.bodyParser());
-  app.use(express.methodOverride());
-  app.use(app.router);
-  app.use(express.static(path.join(__dirname, 'public')));
+function send(_json, res) {
+  res.json(_json);
+}
+
+server.get('/geo', function(req, res, next) {
+  getGeoJSON(11355, res);
 });
 
-app.configure('development', function(){
-  app.use(express.errorHandler());
-});
+// server.get('/hello/:name', respond);
+// server.head('/hello/:name', respond);
 
-app.get('/', routes.index);
-app.get('/users', user.list);
-
-http.createServer(app).listen(app.get('port'), function(){
-  console.log("Express server listening on port " + app.get('port'));
+server.listen(3000, function() {
+  console.log('%s listening at %s', server.name, server.url);
 });
