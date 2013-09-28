@@ -79,7 +79,6 @@ server.get('/getAllGeo', function(req, res, next) {
   getGeoJSON(res);
 });
 
-/*server.listen(80, function() {
+server.listen(80, function() {
   console.log('%s listening at %s', server.name, server.url);
 });
-*/
