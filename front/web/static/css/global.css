@@ -15,15 +15,110 @@
   bottom: 0px;
   width: 100%;
   height: 25%;
+ 	background-color: #999999;
+  -webkit-border-radius: 30px 0px 0px 30px;
+  -moz-border-radius: 30px 0px 0px 30px;
+  border-radius: 30px 0px 0px 30px;
+  z-index: 1;
+}
+#horizontalA{
+	width: 100%;
+	height: 50%;
+	right: 0px;
+  -webkit-border-radius: 30px 0px 0px 0px;
+  -moz-border-radius: 30px 0px 0px 0px;
+  border-radius: 30px 0px 0px 0px;
+  z-index: 1;
+}
+#horizontalB{
+	width: 100%;
+	height: 50%;
+	right: 0px;
+  -webkit-border-radius: 0px 0px 0px 30px;
+  -moz-border-radius: 0px 0px 0px 30px;
+  border-radius: 0px 0px 0px 30px;
+  z-index: 1;
+}
+#button1, #button2, #button3, #button4{
+	/*temporary placeholder text needs formatting so...*/
+	text-align: center;
+	display: inline-block;
+	height: 93%;
+	width: 35%;
+  background-color: #BBBBBB;
+  margin-top: 1%;
+  margin-bottom: 1%;
+  -webkit-border-radius: 30px/ 15px;
+  -moz-border-radius: 30px/ 15px;
+  border-radius: 30px/ 15px;
+	z-index: 1;
+}
+#button1, #button3{
+	margin-left: 30px;
+	margin-right: 2%;
+}
+#button3, #button4{
+	margin-bottom: 2%;
+}
+
+#drawer{
+	position: absolute;
+	width: 30px;
+	height: 100%;
+	bottom: 0px;
+	left: 0px;
+	-webkit-border-radius: 30px 0px 0px 30px;
+  -moz-border-radius: 30px 0px 0px 30px;
+  border-radius: 30px 0px 0px 30px;
+	z-index:1;
+}
+#spacer{
+	position: absolute;
+  width: 15%;
+  height: 100%;
+  bottom: 0px;
+  right: 0px;
   z-index: 1;
 }
 #toggleHUD{
   position:absolute;
-  width: 25%;
-  height: 12.5%;
+  width: 15%;
+  height: 25%;
   bottom: 0px;
   right: 0px;
   text-align: right;
+  -webkit-border-radius: 30px 0px 0px 30px;
+  -moz-border-radius: 30px 0px 0px 30px;
+  border-radius: 30px 0px 0px 30px;
+  background-color: #BBBBBB;
+  z-index: 2;
+}
+#arrow{
+	position: absolute;
+  left: 0px;
+  top: 0px;
+  right: 0px;
+  text-align: left;
+  width:100%;
+  height:40%;
+  z-index: 2;
+}
+#heads{
+  position: absolute;
+  left: 0px;
+  bottom: 10%;
+  text-align: center;
+  width:50%;
+  height:50%;
+  z-index: 2;
+}
+#up{
+  position: absolute;
+  right: 0px;
+  bottom: 10%;
+  text-align: center;
+  width: 50%;
+  height: 50%;
   z-index: 2;
 }
 #info{
