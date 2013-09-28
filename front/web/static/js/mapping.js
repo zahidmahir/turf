@@ -1,11 +1,4 @@
 $(document).ready(function(){
-  //fix the effing screen
-  document.getElementById('map').style.height = (window.innerHeight)+"px";
-  document.getElementById('map').style.width = (window.innerWidth)+"px";
-  document.getElementById('hud').style.top = (window.innerHeight)*0.7;
-  var owner = 'Red Team';
-  var area = '10038';
-  document.getElementById('info').innerHTML = 'OWNER: ' + owner + ' AREA: ' + area;
 
   //make all vars
   var map = new OpenLayers.Map('map');
@@ -70,6 +63,9 @@ $(document).ready(function(){
         if(row.value.owner == undefined){
           drawTerritory(row.value.geo_json, cvEmpty);
         }
+        else if(t.owner == 'me'){
+          drawTerritory(t, cvBlue);
+        }
         else{
           drawTerritory(row.value.geo_json, cvRed);
         }
@@ -81,6 +77,9 @@ $(document).ready(function(){
     territories.forEach(function(t){
       if(t.owner = ''){
         drawTerritory(t, cvEmpty);
+      }
+      else if(t.owner == 'me'){
+        drawTerritory(t, cvBlue);
       }
       else{
         drawTerritory(t, cvRed);
