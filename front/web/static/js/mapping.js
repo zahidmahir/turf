@@ -1,7 +1,18 @@
 $(document).ready(function(){
+<<<<<<< HEAD
+=======
+  //fix the effing screen
+  // document.getElementById('map').style.height = (window.innerHeight)+"px";
+  // document.getElementById('map').style.width = (window.innerWidth)+"px";
+  // document.getElementById('hud').style.top = (window.innerHeight)*0.7;
+  $("#hud").hide(); //hides HUD at startup
+  var owner = 'Red Team';
+  var area = '10038';
+//  document.getElementById('info').innerHTML = 'OWNER: ' + owner + ' AREA: ' + area;
+>>>>>>> 36c6ecf8601e6b908d1f6099075f3fde9ed5a674
 
   //make all vars
-  var map = new OpenLayers.Map('map');
+  var map = new OpenLayers.Map('map', {theme: null});
   var layer = new OpenLayers.Layer.WMS( "OpenLayers WMS", "http://vmap0.tiles.osgeo.org/wms/vmap0", {layers: 'basic'} );
   var geojson_format = new OpenLayers.Format.GeoJSON();
   var redStyle = {
@@ -30,10 +41,15 @@ $(document).ready(function(){
   };
   var emptyStyle = {
     fill: false,
+<<<<<<< HEAD
     fillColor: '#888888',
     fillOpacity: 0.02,
     strokeColor: '#888888'
   }
+=======
+    strokeColor: '#444444'
+  };
+>>>>>>> 36c6ecf8601e6b908d1f6099075f3fde9ed5a674
   var cvRed = new OpenLayers.Layer.Vector();
   var cvBlue = new OpenLayers.Layer.Vector();
   var cvGreen = new OpenLayers.Layer.Vector();
@@ -88,5 +104,20 @@ $(document).ready(function(){
   }
 
   getTerritories();
+<<<<<<< HEAD
 }
 );
+=======
+  console.log(territories);
+  //show/hide hud
+  $("#toggleHUD").click(function(){
+    $("#hud").toggle();
+    if($("#triangle-left").length == 0) {
+      $("#triangle-right").replaceWith("<div id=\"triangle-left\"></div>");
+    }
+    else {
+      $("#triangle-left").replaceWith("<div id=\"triangle-right\"></div>");
+    }
+  });
+});
+>>>>>>> 36c6ecf8601e6b908d1f6099075f3fde9ed5a674
