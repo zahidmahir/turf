@@ -6,9 +6,6 @@
 #map{
 	width:300;
 	height:600px;
-	position: absolute;
-	margin: auto;
-	z-index: 0;
 }
 #hud{
   position: absolute;

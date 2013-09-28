@@ -3,8 +3,7 @@ var restify = require("restify"),
   server = restify.createServer(),
   nano = require('nano')('http://127.0.0.1:5984'),
   turfs = nano.db.use('turfs'),
-  routes = require('./routes');/*,
-  zips = require('./zips.json');*/
+  routes = require('./routes');
 
 server.use(restify.acceptParser(server.acceptable));
 
@@ -13,24 +12,6 @@ server.use(restify.queryParser());
 server.use(restify.bodyParser({ mapParams: false }));
 
 server.use(restify.CORS());
-
-zips.features.forEach(function(geo_json) {
-  geo_json.owner = "";
-  delete geo_json.properties.OBJECTID;
-  delete geo_json.id;
-  var t = {
-    'owner' : '',
-    'geo_json' : geo_json,
-    'zip' : geo_json.properties.postalCode,
-    'random' : Math.random()
-  }
-  turfs.insert(t, function(error, body) {
-    if(error) {
-      console.log('[insert error]', error);
-    }
-  });
-});
-
 
 function getGeoJSON(res) {
   res.header("Access-Control-Allow-Origin", "*");
@@ -77,6 +58,6 @@ server.get('/getAllGeo', function(req, res, next) {
   getGeoJSON(res);
 });
 
-/*server.listen(80, function() {
+server.listen(80, function() {
   console.log('%s listening at %s', server.name, server.url);
-});*/
+});
