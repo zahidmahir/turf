@@ -3,7 +3,8 @@ var restify = require("restify"),
   server = restify.createServer(),
   nano = require('nano')('http://127.0.0.1:5984'),
   turfs = nano.db.use('turfs'),
-  routes = require('./routes');
+  routes = require('./routes'),
+  follow = require('follow');
 
 server.use(restify.acceptParser(server.acceptable));
 
@@ -39,34 +40,58 @@ function getGeoJSONByZip(res, zip) {
   });
 };
 
-(function atilla_the_hun() {
-  setInterval(function() {
-    turfs.view('rand', 'rand', { revs_info: false, startkey : Math.random(), limit: 1 }, function(err, body) {
-      if (err) {
-        console.log('atilla error', err)
-      } else {
-        if(Math.random() < .2) {
-          turfs.insert({'owner':'atilla', '_rev': body.rows[0].value._rev}, body.rows[0].value._id, function(error, bod) {
-            if(error) {
-              console.log("atilla hit another error", error);
-            }
-          });
-        } else if(Math.random() < .2) {
-          turfs.insert({'owner':'', '_rev': body.rows[0].value._rev}, body.rows[0].value._id, function(error, bod) {
-            if(error) {
-              console.log("empty owner hit another error", error);
-            }
-          });
-        }
-      }
-    });
-  }, 2000);
-})();
+function getclaimed(res) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "X-Requested-With");
+  // /turfs/_design/by_zip/_view/by_zip
+  turfs.view('owner', 'owner', function(err, body) {
+    if(err) {
+      console.log('[ got error ]', err);
+    } else {
+      res.json(JSON.stringify(body));
+    }
+  });
+};
 
 
+// (function atilla_the_hun() {
+//   setInterval(function() {
+//     turfs.view('rand', 'rand', { revs_info: false, startkey : Math.random(), limit: 1 }, function(err, body) {
+//       if (err) {
+//         console.log('atilla error', err)
+//       } else {
+//         if(Math.random() < .2) {
+//           turfs.insert({'owner':'atilla', '_rev': body.rows[0].value._rev}, body.rows[0].value._id, function(error, bod) {
+//             if(error) {
+//               console.log("atilla hit another error", error);
+//             } else {
+//               console.log('atilla changed');
+//             }
+//           });
+//         } else if(Math.random() < .2) {
+//           turfs.insert({'owner':'', '_rev': body.rows[0].value._rev}, body.rows[0].value._id, function(error, bod) {
+//             if(error) {
+//               console.log("empty owner hit another error", error);
+//             } else {
+//               console.log('owner lost');
+//             }
+//           });
+//         }
+//       }
+//     });
+//   }, 2000);
+// })();
 
-server.get('/invade', function(req, res, next) {
+// follow({db:"54.225.124.17:5984/turfs"}, function(error, change) {
+//   if(!error) {
+//     console.log("Got change number " + change.seq + ": " + change.id);
+//   } else {
+//     console.log('follow error', error )
+//   }
+// })
 
+server.get('/claimed', function(req, res, next) {
+  getclaimed(res);
 });
 
 server.get('/getGeo/:zip', function(req, res, next) {
