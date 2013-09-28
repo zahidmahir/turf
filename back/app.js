@@ -13,16 +13,16 @@ server.use(restify.queryParser());
 // Read HTTP request
 server.use(restify.bodyParser({ mapParams: false }));
 
-server.use(
-  function crossOrigin(req,res,next){
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "X-Requested-With");
-    return next();
-  }
-);
+server.use(restify.CORS());
+// server.use(
+//   function crossOrigin(req,res,next){
+//     res.header("Access-Control-Allow-Origin", "*");
+//     res.header("Access-Control-Allow-Headers", "X-Requested-With");
+//     return next();
+//   }
+// );
 
 var server = restify.createServer();
-
 /*zips.features.forEach(function(geo_json) {
   geo_json.owner = "";
   delete geo_json.properties.OBJECTID;
@@ -39,6 +39,8 @@ var server = restify.createServer();
 });*/
 
 function getGeoJSON(res) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "X-Requested-With");
   // /turfs/_design/by_zip/_view/by_zip
   turfs.view('by_zip', 'by_zip', function(err, body) {
     if(err) {
