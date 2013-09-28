@@ -1,5 +1,17 @@
+var lat=0;
+var lng=0;
 $(document).ready(function(){
-    $("#hud").hide();
+  $("#hud").hide();
+  if (navigator.geolocation)
+  {
+    navigator.geolocation.getCurrentPosition(showPosition);
+  }
+  else{alert("Geolocation is not supported by this browser.");}
+  function showPosition(position)
+  {
+    lat=position.coords.latitude;
+    lng=position.coords.longitude; 
+  }
     var fromProjection = new OpenLayers.Projection("EPSG:4326");   // Transform from WGS 1984
     var toProjection = new OpenLayers.Projection("EPSG:900913"); // to Spherical Mercator Projection
 
@@ -30,7 +42,7 @@ $(document).ready(function(){
     var layer = new OpenLayers.Layer.WMS( "OpenLayers WMS", "http://vmap0.tiles.osgeo.org/wms/vmap0", {layers: 'basic'} );
     map.addLayer(layer);
 
-    map.setCenter(new OpenLayers.LonLat(-95, 43), 4, false, false);
+    map.setCenter(new OpenLayers.LonLat(lng, lat), 4, false, false);
 
     function transform(lon, lat) {
       return new OpenLayers.LonLat(lon, lat).transform(fromProjection, toProjection);
