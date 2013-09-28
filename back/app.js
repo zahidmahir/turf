@@ -30,25 +30,26 @@ var server = restify.createServer();
   });
 });*/
 
-function getGeoJSON(zip, res) {
+function getGeoJSON(res) {
   // /turfs/_design/by_zip/_view/by_zip
   turfs.view('by_zip', 'by_zip', function(err, body) {
     if(err) {
-      console.log('[got error]', err);
+      console.log('[ got error ]', err);
     } else {
-      send(JSON.stringify(body), res);
+      res.json(JSON.stringify(body));
     }
   });
 }
 
-function send(_json, res) {
-  res.json(_json);
-}
-
-server.get('/geo/:zip', function(req, res, next) {
-  console.log('[ incoming request on ' + req.params.zip + ']');
-  getGeoJSON(req.params.zip, res);
+server.get('/getAllGeo', function(req, res, next) {
+  console.log('[ incoming request ]');
+  getGeoJSON(res);
 });
+
+// server.get('/geo/:zip', function(req, res, next) {
+//   console.log('[ incoming request on ' + req.params.zip + ']');
+//   getGeoJSON(req.params.zip, res);
+// });
 
 server.listen(21, function() {
   console.log('%s listening at %s', server.name, server.url);
