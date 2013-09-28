@@ -68,10 +68,15 @@ $(document).ready(function(){
   var owner = 'Red Team';
   var area = '10038';
   document.getElementById('info').innerHTML = 'OWNER: ' + owner + ' AREA: ' + area;
+=======
+
+  $("#hud").hide(); //hides HUD at startup
+>>>>>>> 5a4fd6481a066e46458ef638b72f4dd8ef13a019
 
   //make all vars
-  var map = new OpenLayers.Map('map');
+  var map = new OpenLayers.Map('map', {theme: null});
   var layer = new OpenLayers.Layer.WMS( "OpenLayers WMS", "http://vmap0.tiles.osgeo.org/wms/vmap0", {layers: 'basic'} );
+  var geojson_format = new OpenLayers.Format.GeoJSON();
   var redStyle = {
     fill: true,
     fillColor: '#FF0000',
@@ -98,8 +103,11 @@ $(document).ready(function(){
   };
   var emptyStyle = {
     fill: false,
-    strokeColor: '#444444'
-  }
+    fillColor: '#888888',
+    fillOpacity: 0.02,
+    strokeColor: '#888888'
+  };
+
   var cvRed = new OpenLayers.Layer.Vector();
   var cvBlue = new OpenLayers.Layer.Vector();
   var cvGreen = new OpenLayers.Layer.Vector();
@@ -117,13 +125,26 @@ $(document).ready(function(){
   cvEmpty.style = emptyStyle;
 
   function drawTerritory(t, cv){
-    console.log('t: ', t);
     cv.addFeatures(geojson_format.read(t));
     map.addLayer(cv);
   }
 
-  function getTerritories(){
-    territories = $.getJSON("http://www.zmhr.me/geoAllGeo");
+  function getTerritories() {
+    $.getJSON('http://www.zmhr.me/getAllGeo', function(res) {
+      res = JSON.parse(res);
+      res.rows.forEach(function(row){
+        console.log(row.value);
+        if(row.value.owner == undefined){
+          drawTerritory(row.value.geo_json, cvEmpty);
+        }
+        else if(t.owner == 'me'){
+          drawTerritory(t, cvBlue);
+        }
+        else{
+          drawTerritory(row.value.geo_json, cvRed);
+        }
+      })
+    })
   }
 
   function init(){
@@ -131,11 +152,28 @@ $(document).ready(function(){
       if(t.owner = ''){
         drawTerritory(t, cvEmpty);
       }
+      else if(t.owner == 'me'){
+        drawTerritory(t, cvBlue);
+      }
       else{
         drawTerritory(t, cvRed);
       }
     });
   }
+
   getTerritories();
-  console.log(territories);*/
+
+  console.log(territories);
+*/
+  //show/hide hud
+  $("#toggleHUD").click(function(){
+    $("#hud").toggle();
+    if($("#triangle-left").length == 0) {
+      $("#triangle-right").replaceWith("<div id=\"triangle-left\"></div>");
+    }
+    else {
+      $("#triangle-left").replaceWith("<div id=\"triangle-right\"></div>");
+    }
+  });
+
 });
