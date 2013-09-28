@@ -15,7 +15,7 @@ server.use(restify.bodyParser({ mapParams: false }));
 
 var server = restify.createServer();
 
-zips.features.forEach(function(geo_json) {
+/*zips.features.forEach(function(geo_json) {
   geo_json.owner = "";
   delete geo_json.properties.OBJECTID;
   delete geo_json.id;
@@ -28,7 +28,7 @@ zips.features.forEach(function(geo_json) {
       console.log('[insert error]', error);
     }
   });
-});
+});*/
 
 function getGeoJSON(zip, res) {
   // /turfs/_design/by_zip/_view/by_zip
